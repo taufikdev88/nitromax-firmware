@@ -118,6 +118,10 @@ skipwriting:
       lcdLine(1, "   Mohon Samakan    ");
       lcdLine(2, " Tekanan Awal Mesin ");
       lcdLine(3, "          Psi       ");
+      lcd.setCursor(7,2);
+      lcd.print(currentPressure);
+      lcd.setCursor(0,0);
+      lcd.print(paket.jumlah_kalibrasi);
     }
   
     digitalWrite(OUT_UP, (isBtnUp() ? RELAY_ON : RELAY_OFF));
@@ -131,6 +135,10 @@ skipwriting:
       lcdLine(1, "   Mohon Samakan    ");
       lcdLine(2, " Tekanan Awal Mesin ");
       lcdLine(3, "          Psi       ");
+      lcd.setCursor(7,2);
+      lcd.print(currentPressure);
+      lcd.setCursor(0,0);
+      lcd.print(paket.jumlah_kalibrasi);
     }
   }
 
