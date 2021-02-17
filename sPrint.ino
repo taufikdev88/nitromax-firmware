@@ -22,7 +22,9 @@ void printJSON(bool isBackup = false, bool isFinish = true){
   doc["jumlah_kalibrasi"] = paket.jumlah_kalibrasi;
 
   if(isBackup){
+    // jika backup
     if(isFinish){
+      // hika backup dan finish tetapi, printer dan android tidak terkoneksi
       file = SD.open(FILE_BACKUP, FILE_WRITE); // <------------------- file open
       if(!file){
         sdError();
@@ -34,6 +36,7 @@ void printJSON(bool isBackup = false, bool isFinish = true){
       file.close(); // <------------------- file close 
       delay(1);
     } else {
+      // ini untuk menyimpan sementara file, agar saat mati sebelum finish, masuk ke file temp dengan id_mode = 1 karena backup
       file = SD.open(FILE_TEMP, FILE_WRITE); // <----------------- file open
       if(!file){
         sdError();
@@ -44,7 +47,10 @@ void printJSON(bool isBackup = false, bool isFinish = true){
       delay(1);
     }
   } else {
+    // baik emergency atau normal, akan masuk sini yang penting terkoneksi dgn baik
     if(emergency){
+      // jika mode emergency, tambahkan file ke backup
+      doc["id_mode"] = "1";
       file = SD.open(FILE_BACKUP, FILE_WRITE); // <------------------- file open
       if(!file){
         sdError();
@@ -56,11 +62,12 @@ void printJSON(bool isBackup = false, bool isFinish = true){
       file.close(); // <------------------- file close 
       delay(1);
     }
-    if(emergency && ban == 0) return;
-    // syarat agar menghapus jumlah kalibrasi harus mengirim ke android / disimpan ke file
+
+    // jika selesai 1 transaksi , hapus file penyimpan jumlah kalibrasi
     if(SD.exists(FILE_CALIB)){
       SD.remove(FILE_CALIB);
     }
+    
     serializeJson(doc, Serial1);
     Serial1.println();
   }

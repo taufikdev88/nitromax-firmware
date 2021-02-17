@@ -79,7 +79,8 @@ void vStep7(){
 skipcekharga:
   paket.detail.jumlah_error = String(err); 
   paket.detail.jumlah_ban = String(ban); 
-  
+
+  // menghapus file temp tadi
   SD.remove(FILE_TEMP);
   delay(1);
   
@@ -95,6 +96,7 @@ skipcekharga:
       printJSON(true); // backup true, finish true
       delay(2000);
     } else {
+      // printJSON dijalankan
       printJSON(); // backup false, finish true 
     }
   }  
