@@ -93,6 +93,7 @@ skipwriting:
           if(doc["tekanan"]){
             referencePressure = doc["tekanan"].as<String>().toInt();
             Serial1.println(F("{\"mode\":\"pressure\",\"status\":\"ok\"}"));
+            sesuaikanTekanan();
             continue;
           } else if(doc["open"]){
             Serial1.println(F("{\"mode\":\"pressure\",\"status\":\"ok\"}"));
@@ -187,6 +188,10 @@ skipwriting:
           paket.detail.tekanan_awal += String(startPressure) + ",";
           if(!emergency) Serial1.println(F("{\"mode\":\"cabut\",\"status\":\"ok\"}"));
           break;
+        } else 
+        if(detectedPressure <= (NORMAL_PRESSURE + OFFSET_PRESSURE) && ( oldDetectedPressure < (referencePressure - OFFSET_PRESSURE) || oldDetectedPressure > (referencePressure + OFFSET_PRESSURE) )){
+          Serial.println("Terdeteksi error");
+          err++;
         }
         oldDetectedPressure = detectedPressure;
       }
@@ -222,12 +227,12 @@ skipwriting:
         }
       }
 
-      if(isBtnPause() && !pressed){
-        pressed = true;
-      } else if(!isBtnPause() && pressed){
-        err++;
-        pressed = false;
-      }
+//      if(isBtnPause() && !pressed){
+//        pressed = true;
+//      } else if(!isBtnPause() && pressed){
+//        err++;
+//        pressed = false;
+//      }
 
       digitalWrite(OUT_PAUSE, (isBtnPause() ? RELAY_ON : RELAY_OFF));
       if(mode[1] == 0) digitalWrite(OUT_AUTO, (isBtnAuto() ? RELAY_ON : RELAY_OFF));
