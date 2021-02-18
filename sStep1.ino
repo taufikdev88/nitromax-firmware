@@ -6,7 +6,9 @@
  */
 void vStep1(){
   digitalWrite(OUT_PAUSE, (isBtnPause() ? RELAY_ON : RELAY_OFF));
-      
+  digitalWrite(OUT_CAR, (isBtnCar() ? RELAY_ON : RELAY_OFF));
+  digitalWrite(OUT_MOTOR, (isBtnMotor() ? RELAY_ON : RELAY_OFF));
+  
   if((unsigned long) millis()-tRefresh >= TREFRESH){
     tRefresh = millis();
 
@@ -58,10 +60,7 @@ void vStep1(){
       Serial1.println(F("{\"mode\":\"input\",\"status\":\"gagal\"}"));
     }
   }
-  
-  digitalWrite(OUT_CAR, (isBtnCar() ? RELAY_ON : RELAY_OFF));
-  digitalWrite(OUT_MOTOR, (isBtnMotor() ? RELAY_ON : RELAY_OFF));
-      
+        
   customKey = customKeypad.getKey();
   if(customKey == '!' && !emergency){
     if(!checkClient()) return;
