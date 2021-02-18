@@ -11,8 +11,8 @@
 
 #define TRELOAD 30000
 #define TREFRESH 500
-#define TPRESSING 150
-#define TUPDATEPRESSURE 1500
+#define TPRESSING 200
+#define TUPDATEPRESSURE 2000
 
 #define MOTOR_MIN_PRESSURE 17
 #define MOTOR_MAX_PRESSURE 58
@@ -82,8 +82,8 @@ int8_t referencePressure = 0;
 int8_t startPressure = 0;
 int8_t endPressure = 0;
 
-uint8_t ban = 0;
-uint8_t err = 0;
+int8_t ban = 0;
+int8_t err = 0;
 uint8_t mode[2] = { 0 };
 /*
  * mode[0] = jenis kendaraan, 0 = motor, 1 = mobil
