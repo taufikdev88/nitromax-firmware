@@ -110,6 +110,7 @@ skipwriting:
   lcd.setCursor(0,0);
   lcd.print(paket.jumlah_kalibrasi);
   lcdLine(4, "  Ent Untuk Lanjut  ");
+  
   while(1){
     if((unsigned long) millis()-tReload >= TRELOAD){
       tReload = millis();
@@ -124,9 +125,10 @@ skipwriting:
       lcd.print(paket.jumlah_kalibrasi);
     }
   
+    digitalWrite(OUT_PAUSE, (isBtnPause() ? RELAY_ON : RELAY_OFF));
     digitalWrite(OUT_UP, (isBtnUp() ? RELAY_ON : RELAY_OFF));
     digitalWrite(OUT_DOWN, (isBtnDown() ? RELAY_ON : RELAY_OFF));
-    digitalWrite(OUT_PAUSE, (isBtnPause() ? RELAY_ON : RELAY_OFF));
+    
     customKey = customKeypad.getKey();
     if(customKey == 'G'){
       break;
@@ -155,26 +157,25 @@ skipwriting:
   bool calibrated = false;
   int8_t oldDetectedPressure = 0;
   while(1){
+    digitalWrite(OUT_PAUSE, (isBtnPause() ? RELAY_ON : RELAY_OFF));
+    
     if((unsigned long) millis()-tReload >= TRELOAD){
       tReload = millis();
-  
       lcdReload();
     }
     if((unsigned long) millis()-tRefresh >= TREFRESH){
       tRefresh = millis();
-
       lcdLine(3, "   Ref:    Cur:      ");
       lcd.setCursor(7,2);
       lcd.print(currentPressure);
       lcd.setCursor(15,2);
       lcd.print(detectedPressure);
     }
+    
     customKey = customKeypad.getKey();
     if(customKey == '*'){
       lcdReload();
     }
-    
-    digitalWrite(OUT_PAUSE, (isBtnPause() ? RELAY_ON : RELAY_OFF));
     
     getPressure();
     if(detectedPressure != oldDetectedPressure){
