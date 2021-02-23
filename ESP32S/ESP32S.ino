@@ -45,6 +45,7 @@ void loop() {
     String dataIn = Serial2.readStringUntil('\n');
     Serial.println(dataIn);
     
+    doc.clear();
     DeserializationError error = deserializeJson(doc, dataIn);
     if(!error){ // kalau tidak error, berarti dia menggunakan json
       if(!emergency){
@@ -62,6 +63,7 @@ void loop() {
         paket.detail.tekanan_awal = doc["detail"][0]["tekanan_awal"].as<String>();
         printRPP02N();
       }
+      dataIn = "";
     } else if(dataIn.indexOf(KEYWORD) >= 0){
       dataIn = dataIn.substring(KEYWORD_LENGTH);
       
@@ -101,6 +103,7 @@ void loop() {
     if(SerialBT.available() > 0){
       String dataBT = SerialBT.readStringUntil('\n');
 
+      doc.clear();
       DeserializationError error = deserializeJson(doc, dataBT);
       if(!error){
         // jika tidak error, langsung saja terus kan ke arduino mega

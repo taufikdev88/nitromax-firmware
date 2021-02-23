@@ -125,6 +125,9 @@ skipwriting:
 
 //      digitalWrite(OUT_UP, (isBtnUp() ? RELAY_ON : RELAY_OFF));
 //      digitalWrite(OUT_DOWN, (isBtnDown() ? RELAY_ON : RELAY_OFF));
+      if(mode[1] == 0 && isBtnAuto()) break;
+      if(mode[1] != 0 && isBtnInf()) break;
+      
       customKey = customKeypad.getKey();
       if(customKey == 'G' || (mode[1] == 0 && isBtnAuto()) || (mode[1] != 0 && isBtnInf())){
         break;
@@ -147,6 +150,8 @@ skipwriting:
           referencePressure = 0;
         }
         referencePressure = referencePressure*10+n;
+      } else if(customKey == '*'){
+        lcdReload();
       }
     }
     Serial.println("tekanan awal didapatkan");
@@ -219,11 +224,12 @@ skipwriting:
         
         lcdReload();
         sendSerial(ASK_DATE_TIME);
-        date = globalString.substring(0, 17);
         if(readSerial()){
-          date = globalString.substring(0, 17);
-          String line1 = date + (emergency ? "EMG" : "NRM");
-          lcdLine(1, line1.c_str());
+          if(globalString.indexOf(INFO_GET_TIME_ERROR) == -1){
+            date = globalString.substring(0, 16);
+            String line1 = date + (emergency ? " EMG" : " NRM");
+            lcdLine(1, line1.c_str()); 
+          }
         }
       }
 
@@ -243,7 +249,9 @@ skipwriting:
         ban = 1;
         step = step7;
         break;
-      } 
+      } else if(customKey == '*'){
+        lcdReload();
+      }
 
       //******************************* dummy
 //      else if(customKey == 'E'){

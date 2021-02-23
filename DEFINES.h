@@ -75,7 +75,7 @@ String globalString = "";
 bool emergency = false;
 
 #define NORMAL_PRESSURE 2
-#define OFFSET_PRESSURE 1
+#define OFFSET_PRESSURE 2
 int8_t currentPressure = 0;
 int8_t referencePressure = 0;
 
@@ -84,6 +84,7 @@ int8_t endPressure = 0;
 
 int8_t ban = 0;
 int8_t err = 0;
+uint8_t errDate = 0;
 uint8_t mode[2] = { 0 };
 /*
  * mode[0] = jenis kendaraan, 0 = motor, 1 = mobil

@@ -19,9 +19,20 @@ void loop(){
     lcdReload();
     sendSerial(ASK_DATE_TIME);
     if(readSerial()){
-      date = globalString.substring(0, 16);
-      String line1 = date + (emergency ? " EMG" : " NRM");
-      lcdLine(1, line1.c_str());
+      if(globalString.indexOf(INFO_GET_TIME_ERROR) == -1){
+        date = globalString.substring(0, 16);
+        String line1 = date + (emergency ? " EMG" : " NRM");
+        lcdLine(1, line1.c_str()); 
+      } else {
+        if(++errDate > 120){
+          lcd.clear();
+          lcdLine(1, "TIDAK BISA UPDATE");
+          lcdLine(2, "TANGGAL!!");
+          lcdLine(3, "MOHON MATIKAN MIKRO");
+          lcdLine(4, "DAN NYALAKAN ULANG");
+          delay(1000);
+        }
+      }
     }
   }
 

@@ -269,7 +269,7 @@ trySetupDateTime:
       lcdLine(1, "Gagal update........");
       delay(1000);
       Serial.println(err);
-      if(++err >= 5) {
+      if(++err >= 3) {
         askReboot();
       }
       setupDateTime();
