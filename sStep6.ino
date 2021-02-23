@@ -116,11 +116,16 @@ skipwriting:
         lcd.print(referencePressure);
         lcd.setCursor(15,2);
         lcd.print(detectedPressure);
+        if(mode[1] == 0 && detectedPressure > UPLIMIT_AUTO_PRESSURE) lcdLine(4, "TEKANAN ANGIN TINGGI");
       }
       
       getPressure();
       if(detectedPressure > (NORMAL_PRESSURE + OFFSET_PRESSURE)){
-        break;
+        if(mode[1] != 0){
+          break;
+        } else if(mode[1] == 0 && detectedPressure <= UPLIMIT_AUTO_PRESSURE){
+          break;
+        }
       }
 
 //      digitalWrite(OUT_UP, (isBtnUp() ? RELAY_ON : RELAY_OFF));
@@ -154,6 +159,7 @@ skipwriting:
         lcdReload();
       }
     }
+    
     Serial.println("tekanan awal didapatkan");
     startPressure = detectedPressure;
     sesuaikanTekanan();

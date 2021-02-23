@@ -14,6 +14,10 @@
 #define TPRESSING 200
 #define TUPDATEPRESSURE 2000
 
+#define NORMAL_PRESSURE 2
+#define OFFSET_PRESSURE 2
+#define UPLIMIT_AUTO_PRESSURE 10
+
 #define MOTOR_MIN_PRESSURE 17
 #define MOTOR_MAX_PRESSURE 58
 #define CAR_MIN_PRESSURE 17
@@ -74,8 +78,6 @@ String date = "";
 String globalString = "";
 bool emergency = false;
 
-#define NORMAL_PRESSURE 2
-#define OFFSET_PRESSURE 2
 int8_t currentPressure = 0;
 int8_t referencePressure = 0;
 
