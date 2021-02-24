@@ -96,10 +96,10 @@ void vStep7(){
       mode[1] = 1; // set seperti mode tambah
       
       paket.detail.mode_transaksi = modeTransaksi[((mode[0] == 0 ? 0 : 1) + (mode[1] * 2))];
-      paket.detail.jumlah_ban = "1";
       paket.detail.tekanan_awal = "0";
       paket.detail.tekanan = referencePressure;
-      
+
+      ban = 1;
       cekHarga(true);
       paket.harga = ribuanCek((String)(globalString.toInt()*ban));
     }
