@@ -233,3 +233,11 @@ void sesuaikanTekanan(){
 int8_t findComma(String s, int8_t i){
   return s.indexOf(',', i);
 }
+
+void lcdWifi(){
+  lcdReload();
+  lcdLine(1, "SIAPKAN WIFI HOTSPOT");
+  lcdLine(2, "SSID: DIGIPONIC     ");
+  lcdLine(3, "PASS: @digiponic    ");
+  lcdLine(4, "  Ent Untuk Lanjut  ");
+}

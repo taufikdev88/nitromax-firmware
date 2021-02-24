@@ -29,7 +29,10 @@ void vStep1(){
       if(doc["mode_transaksi"]){
         mode[0] = !(doc["mode_transaksi"].as<String>().toInt() % 2);
         mode[1] = (doc["mode_transaksi"].as<String>().toInt() - 1) / 2;
-        ban = doc["jumlah_ban"].as<String>().toInt();
+
+        if(mode[1] < 2) ban = 1;
+        else ban = doc["jumlah_ban"].as<String>().toInt();
+        
         referencePressure = String(doc["tekanan"] | "33").toInt();
         Serial1.println(F("{\"mode\":\"input\",\"status\":\"ok\"}"));
         step = step6;
@@ -107,14 +110,26 @@ void vStep1(){
     if(!checkClient()) return;
     mode[0] = 0;
     mode[1] = 2;
-    ban = 0;
-    step = step3;
+    ban = 1;
+    step = step4;
   } else if(customKey == '6'){
     if(!checkClient()) return;
     mode[0] = 1;
     mode[1] = 2;
-    ban = 0;
-    step = step3;
+    ban = 1;
+    step = step4;
+  } else if(customKey == '7'){
+    if(!checkClient()) return;
+    mode[0] = 0;
+    mode[1] = 3;
+    ban = 1;
+    step = step4;
+  } else if(customKey == '8'){
+    if(!checkClient()) return;
+    mode[0] = 1;
+    mode[1] = 3;
+    ban = 1;
+    step = step4;
   } else if(customKey == '*'){
     lcdReload();
   }

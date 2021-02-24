@@ -1,6 +1,6 @@
 /*
  * Ini adalah file yang berhubungan dengan sampling dan penghitungan sensor tekanan angin
- * baik konfersi ke psi dan sebaliknya
+ * baik konversi ke psi dan sebaliknya
  */
 int8_t detectedPressure = 0;
 uint8_t sensorValue[10] = { 0 };

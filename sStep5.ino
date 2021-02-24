@@ -8,7 +8,7 @@ void vStep5(){
   
   if((unsigned long) millis()-tRefresh>500){
     tRefresh = millis();
-    
+
     // konfirmasi
     lcdLine(1,"Kendaraan : ");
     lcd.print((mode[0] == 0 ? "Motor   ":"Mobil   "));
@@ -16,7 +16,8 @@ void vStep5(){
     switch(mode[1]){
       case 0: lcd.print("Isi Baru"); break;
       case 1: lcd.print("Tambah  "); break;
-      case 2: lcd.print("Tambal  "); break;
+      case 2: lcd.print("Cek Ban "); break;
+      case 3: lcd.print("B.Tambal"); break;
     }
     lcdLine(3,"Jumlah ban:         ");
     lcd.setCursor(12,2);

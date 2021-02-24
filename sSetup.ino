@@ -73,7 +73,7 @@ void setupPressure(){
   if(!file){
     paket.jumlah_kalibrasi = "1";
     Serial.println("belum kalibrasi semenjak sukses");
-    goto skipreading;
+    goto skipreadingkalibrasi;
   }
   globalString = "";
   delay(1);
@@ -84,7 +84,7 @@ void setupPressure(){
   paket.jumlah_kalibrasi = String(globalString.toInt()+1);
   Serial.print("kalibrasi ke-");
   Serial.println(paket.jumlah_kalibrasi);
-skipreading:
+skipreadingkalibrasi:
   file.close();
   delay(1);
   SD.remove(FILE_CALIB);
@@ -92,12 +92,12 @@ skipreading:
   file = SD.open(FILE_CALIB, FILE_WRITE);
   if(!file){
     Serial.println("gagal kalibrasi");
-    goto skipwriting;
+    goto skipwritingkalibrasi;
   }
   Serial.println("jumlah kalibrasi tersimpan");
   file.print(paket.jumlah_kalibrasi);
   delay(1);
-skipwriting:
+skipwritingkalibrasi:
   file.close();
   delay(1);
   
@@ -128,6 +128,11 @@ skipwriting:
     digitalWrite(OUT_PAUSE, (isBtnPause() ? RELAY_ON : RELAY_OFF));
     digitalWrite(OUT_UP, (isBtnUp() ? RELAY_ON : RELAY_OFF));
     digitalWrite(OUT_DOWN, (isBtnDown() ? RELAY_ON : RELAY_OFF));
+
+    getPressure();
+    if(detectedPressure > (NORMAL_PRESSURE + OFFSET_PRESSURE)){
+      break;
+    }
     
     customKey = customKeypad.getKey();
     if(customKey == 'G'){
@@ -205,19 +210,11 @@ skipwriting:
  * dan memerintah esp untuk melakukan sambungan ke hotspot tsb
  */
 void setupWiFi(){
-  lcdLine(1, "SIAPKAN WIFI HOTSPOT");
-  lcdLine(2, "SSID: DIGIPONIC     ");
-  lcdLine(3, "PASS: @digiponic    ");
-  lcdLine(4, "  Ent Untuk Lanjut  ");
+  lcdWifi();
   while(1){
     if((unsigned long) millis()-tReload >= TRELOAD){
       tReload = millis();
-  
-      lcdReload();
-      lcdLine(1, "SIAPKAN WIFI HOTSPOT");
-      lcdLine(2, "SSID: DIGIPONIC     ");
-      lcdLine(3, "PASS: @digiponic    ");
-      lcdLine(4, "  Ent Untuk Lanjut  ");
+      lcdWifi();
     }
     
     customKey = customKeypad.getKey();
@@ -226,11 +223,7 @@ void setupWiFi(){
     } else if(customKey == 'E'){
       restartFunc();
     } else if(customKey == '*'){
-      lcdReload();
-      lcdLine(1, "SIAPKAN WIFI HOTSPOT");
-      lcdLine(2, "SSID: DIGIPONIC     ");
-      lcdLine(3, "PASS: @digiponic    ");
-      lcdLine(4, "  Ent Untuk Lanjut  ");
+      lcdWifi();
     }
   }
 

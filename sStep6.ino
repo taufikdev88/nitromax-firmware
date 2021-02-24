@@ -3,58 +3,92 @@
  * 
  */
 void vStep6(){
-  // ambil jumlah transaksi sekarang
-  String path = (String) date.substring(0,4) + date.substring(5,7) + date.substring(8,10) + ".txt";
-  file = SD.open(path);
-  if(!file){
-    paket.no_transaksi = "1";
-    Serial.println("belum ada transaksi hari ini");
-    goto skipreading;
-  }
-  globalString = "";
-  delay(1);
-  while(file.available()){
-    char a = file.read();
-    if(isDigit(a)) globalString += a;
-  }
-  paket.no_transaksi = String(globalString.toInt()+1);
-  Serial.print("transaksi hari ini ke-");
-  Serial.println(paket.no_transaksi);
-skipreading:
-  file.close();
-  delay(1);
-  SD.remove(path);
-  delay(1);
-  file = SD.open(path, FILE_WRITE);
-  if(!file){
-    Serial.println("gagal catat nomer transaksi");
-    goto skipwriting;
-  }
-  Serial.println("transaksi tersimpan");
-  file.print(paket.no_transaksi);
-  delay(1);
-skipwriting:
-  file.close();
-  delay(1);
+  // jika mode nya adalah cek tambal, tidak usah simpan transaksi ke temp
+  if(mode[1] == 2){
+    // jika mode cek tambal, simpan ke file tambal saja
+    file = SD.open(FILE_TAMBAL); 
+    if(!file){
+      paket.jumlah_cekbocor = "1";
+      Serial.println("belum cek angin semenjak bayar");
+      goto skipreadingtambal;
+    }
+    globalString = "";
+    delay(1);
+    while(file.available()){
+      char a = file.read();
+      if(isDigit(a)) globalString += a;
+    }
+    paket.jumlah_cekbocor = String(globalString.toInt()+1);
+    Serial.print("jumlah semprot angin: ");
+    Serial.println(paket.jumlah_cekbocor);
+skipreadingtambal:
+    file.close();
+    delay(1);
+    if(SD.exists(FILE_TAMBAL)) SD.remove(FILE_TAMBAL);
+    delay(1);
+    file = SD.open(FILE_TAMBAL, FILE_WRITE);
+    if(!file){
+      Serial.println("gagal simpan file tambal");
+      goto skipwritingtambal;
+    }
+    Serial.println("jumlah kalibrasi tersimpan");
+    file.print(paket.jumlah_cekbocor);
+    delay(1);
+skipwritingtambal:
+    file.close();
+    delay(1);
+  } else {
+    // ambil jumlah transaksi sekarang
+    String path = (String) date.substring(0,4) + date.substring(5,7) + date.substring(8,10) + ".txt";
+    file = SD.open(path);
+    if(!file){
+      paket.no_transaksi = "1";
+      Serial.println("belum ada transaksi hari ini");
+      goto skipreadingtransaksi;
+    }
+    globalString = "";
+    delay(1);
+    while(file.available()){
+      char a = file.read();
+      if(isDigit(a)) globalString += a;
+    }
+    paket.no_transaksi = String(globalString.toInt()+1);
+    Serial.print("transaksi hari ini ke-");
+    Serial.println(paket.no_transaksi);
+skipreadingtransaksi:
+    file.close();
+    delay(1);
+    if(SD.exists(path)) SD.remove(path);
+    delay(1);
+    file = SD.open(path, FILE_WRITE);
+    if(!file){
+      Serial.println("gagal catat nomer transaksi");
+      goto skipwritingtransaksi;
+    }
+    Serial.println("transaksi tersimpan");
+    file.print(paket.no_transaksi);
+    delay(1);
+skipwritingtransaksi:
+    file.close();
+    delay(1);
+  
+    // pengisian nilai paket setelah mendapatkan no transaksi
+    paket.tgl_transaksi = date;
+    paket.jenis_kendaraan = (mode[0] ? jenisKendaraan[1] : jenisKendaraan[0]);
+    paket.detail.mode_transaksi = modeTransaksi[((mode[0] == 0 ? 0 : 1) + (mode[1] * 2))];
+    cekHarga(false);
+    paket.harga = ribuanCek((String)(globalString.toInt()*ban));
 
-  // pengisian nilai paket setelah mendapatkan no transaksi
-  paket.tgl_transaksi = date;
-  paket.jenis_kendaraan = (mode[0] ? jenisKendaraan[1] : jenisKendaraan[0]);
-  paket.detail.mode_transaksi = modeTransaksi[((mode[0] == 0 ? 0 : 1) + (mode[1] * 2))];
-  cekHarga(false);
-  paket.harga = ribuanCek((String)(globalString.toInt()*ban));
-  paket.detail.jumlah_ban = String(ban);
-  
-  paket.detail.tekanan_awal = "";
-  paket.detail.tekanan = referencePressure;
-  
-  // backup ke sdcard dengan parameter finish = false
-  printJSON(true, false); // backup ke file  dan finish = false
-  
-  paket.detail.tekanan = "";
+    paket.detail.jumlah_ban = String(ban);
 
-  // ubah jumlah ban untuk mode tambal ban
-  if(mode[1] == 2) ban *= 2;
+    paket.detail.tekanan_awal = "";
+    paket.detail.tekanan = referencePressure;
+    
+    // backup ke sdcard dengan parameter finish = false
+    printJSON(true, false); // backup ke file  dan finish = false
+    
+    paket.detail.tekanan = "";
+  }
 
   uint8_t err = 0;
 
@@ -71,8 +105,6 @@ skipwriting:
   // proses pendeteksian dan pengolahan ada di dalam for ini
   for(ban; ban>0; ban--){
     // ambil dan sampling tekanan sekarang
-    tRefresh = millis(); // pinjam variable tRefresh buat menghitung
-
     lcd.clear();
     lcdLine(1, " Mendeteksi Tekanan ");
     lcdLine(2, "      Awal Ban      ");
@@ -157,6 +189,9 @@ skipwriting:
         referencePressure = referencePressure*10+n;
       } else if(customKey == '*'){
         lcdReload();
+        lcdLine(1, " Mendeteksi Tekanan ");
+        lcdLine(2, "      Awal Ban      ");
+        lcdLine(4, "  Segera Tancapkan  ");
       }
     }
     
@@ -168,7 +203,7 @@ skipwriting:
     delay(500);
     
     digitalWrite((mode[1] == 0 ? OUT_AUTO : OUT_INFLATION), RELAY_ON);
-    delay(300);
+    delay(TPRESSING);
     digitalWrite((mode[1] == 0 ? OUT_AUTO : OUT_INFLATION), RELAY_OFF);
     
     int8_t oldDetectedPressure = 0;

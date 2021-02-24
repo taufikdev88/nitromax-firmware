@@ -6,7 +6,7 @@
 void printJSON(bool isBackup = false, bool isFinish = true){
   tReload = millis();
   
-  DynamicJsonDocument doc(JSON_PACKET_LENGTH);
+  StaticJsonDocument<JSON_PACKET_LENGTH> doc;
   doc["mode"] = "output";
   doc["status"] = "ok";
   doc["id_mode"] = (isBackup ? "1" : "0");
@@ -20,6 +20,7 @@ void printJSON(bool isBackup = false, bool isFinish = true){
   doc["detail"][0]["tekanan_awal"] = paket.detail.tekanan_awal;
   doc["harga"] = paket.harga;
   doc["jumlah_kalibrasi"] = paket.jumlah_kalibrasi;
+  doc["jumlah_cekbocor"] = paket.jumlah_cekbocor;
 
   if(isBackup){
     // jika backup
@@ -61,11 +62,6 @@ void printJSON(bool isBackup = false, bool isFinish = true){
       delay(1);
       file.close(); // <------------------- file close 
       delay(1);
-    }
-
-    // jika selesai 1 transaksi , hapus file penyimpan jumlah kalibrasi
-    if(SD.exists(FILE_CALIB)){
-      SD.remove(FILE_CALIB);
     }
     
     serializeJson(doc, Serial1);

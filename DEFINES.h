@@ -29,6 +29,7 @@
 #define FILE_BACKUP "bkp.txt"
 #define FILE_PRICE "prc.txt"
 #define FILE_CALIB "clb.txt"
+#define FILE_TAMBAL "tbl.txt"
 
 #define RELAY_OFF 1
 #define RELAY_ON !RELAY_OFF
@@ -60,8 +61,8 @@ const byte customChar[] = { 0b10000,0b11000,0b11100,0b11110,0b11110,0b11100,0b11
 
 //***************************************** KEYPAD
 char customKey;
-const byte ROWS = 5;
-const byte COLS = 4;
+#define ROWS 5
+#define COLS 4
 char keys[ROWS][COLS] = {
   {'!','@','#','*'},
   {'1','2','3','U'},
@@ -90,7 +91,7 @@ uint8_t errDate = 0;
 uint8_t mode[2] = { 0 };
 /*
  * mode[0] = jenis kendaraan, 0 = motor, 1 = mobil
- * mode[1] = jenis transaksi, 0 = kuras, 1 = tambah, 2 = tambal
+ * mode[1] = jenis transaksi, 0 = kuras, 1 = tambah, 2 = cekbocor, 3 = checkouttambal
  */
 
 enum Step {
@@ -104,9 +105,9 @@ enum Step {
 } step;
 
 //***************************************** PROGRAM'S VARIABLE
-String modeTransaksi[6] = { "1","2","3","4","5","6" };
+String modeTransaksi[8] = { "1","2","3","4","5","6","7","8" };
 String jenisKendaraan[2] = { "84","85" };
-String stringTransaksi[3] = { "  Isi Baru Nitrogen ","  Isi Tambah Nitro..","  Tambal Ban        " };
+String stringTransaksi[4] = { "  Isi Baru Nitrogen ","  Isi Tambah Nitro..","  Cek Kebocoran     ", "  Checkout Tambal   " };
 
 unsigned long tRefresh = 0;
 unsigned long tReload = 0;

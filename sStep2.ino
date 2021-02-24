@@ -12,7 +12,7 @@ void vStep2(){
 
     lcdLine(2, "Mode Transaksi:     ");
     for(uint8_t i=0; i<2; i++){
-      uint8_t j = (mode[1]+i > 2 ? 0 : mode[1] + i);
+      uint8_t j = (mode[1]+i > 3 ? 0 : mode[1] + i);
       lcdLine(3+i, stringTransaksi[j].c_str());
     }
     lcd.setCursor(0,2);
@@ -21,11 +21,17 @@ void vStep2(){
 
   customKey = customKeypad.getKey();
   if(customKey == 'U' || customKey == 'R'){
-    if(--mode[1] > 2) mode[1] = 2;
+    if(--mode[1] > 3) mode[1] = 3;
   } else if(customKey == 'D' || customKey == 'L'){
-    if(++mode[1] > 2) mode[1] = 0;
+    if(++mode[1] > 3) mode[1] = 0;
   } else if(customKey == 'G'){
-    step = step3;
+    if(mode[1] <= 1){
+      step = step3;
+    } else if(mode[1] == 2){
+      step = step4;
+    } else {
+      step = step5;
+    }
   } else if(customKey == 'E' || customKey == '!'){
     step = step1;
   } else if(customKey == '*'){

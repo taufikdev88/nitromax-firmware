@@ -5,7 +5,10 @@
  */
 void vStep7(){
   lcd.clear();
+  
   if(mode[1] == 2){
+    goto end2;
+  } else if(mode[1] == 3){
     ban = 0;
     while(1){  
       if((unsigned long) millis()-tRefresh > 500){
@@ -43,15 +46,16 @@ void vStep7(){
         int n = (int) customKey - 48;
         ban = ban*10+n;
       } else if(customKey == 'G'){
-  end1:
+end1:
         if(ban < 1) continue;
-        cekHarga(true); // harga akan masuk ke variable temp berupa String, isTambalFinish = true
+        cekHarga(true); // harga akan masuk ke variable globalString berupa String, isTambalFinish = true
         // harga ke Rp dan ribuan dipisahkan titik
         paket.harga = ribuanCek((String)(globalString.toInt()*ban));
         //paket.detail.jumlah_error = String(err);
         break;
       }
     }
+  //---------------------------------- end of if mode[1] ==  3
   } else {
     ban = 0;
     if(paket.detail.tekanan.length() == 0){
@@ -97,10 +101,21 @@ skipcekharga:
       delay(2000);
     } else {
       // printJSON dijalankan
-      printJSON(); // backup false, finish true 
+      printJSON(); // backup false, finish true
+      
+      // jika selesai 1 transaksi , hapus file penyimpan jumlah kalibrasi
+      if(SD.exists(FILE_CALIB)){
+        SD.remove(FILE_CALIB);
+      }
+      // jika checkout tambal, hapus file penyimpan jumlah tambal
+      if(SD.exists(FILE_TAMBAL)){
+        SD.remove(FILE_TAMBAL);
+        paket.jumlah_cekbocor = "0";
+      }
     }
   }  
-  
+
+end2:
   step = step1;
   tReload = tRefresh = 0;
 }
