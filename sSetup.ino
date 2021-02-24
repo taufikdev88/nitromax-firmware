@@ -266,7 +266,7 @@ trySetupDateTime:
         askReboot();
       }
       setupDateTime();
-    } else {
+    } else if(globalString.length() > 10) {
       date = globalString.substring(0, 16);
       String line1 = date + "   ";
       lcdLine(1, line1.c_str());

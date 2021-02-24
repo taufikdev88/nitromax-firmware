@@ -267,7 +267,7 @@ skipwritingtransaksi:
         lcdReload();
         sendSerial(ASK_DATE_TIME);
         if(readSerial()){
-          if(globalString.indexOf(INFO_GET_TIME_ERROR) == -1){
+          if(globalString.length() > 10){
             date = globalString.substring(0, 16);
             String line1 = date + (emergency ? " EMG" : " NRM");
             lcdLine(1, line1.c_str()); 

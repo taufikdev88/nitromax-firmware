@@ -27,11 +27,11 @@ void getPressure(void){
     sensorValue[2] = sensorValue[1];
     sensorValue[1] = sensorValue[0];
     sensorValue[0] = convert2Psi(analogData);
-  
-    Serial.print(sensorValue[0]);
+
+    if((int8_t) sensorValue[0] > 3) Serial.print(sensorValue[0]);
     bool newValue = true;
     for(uint8_t idx=1; idx<10; idx++){
-      Serial.print((String) ',' + sensorValue[idx]);
+      if((int8_t) sensorValue[0] > 3) Serial.print((String) ',' + sensorValue[idx]);
       
       if(sensorValue[0] != sensorValue[idx]){
         newValue = false;
@@ -41,15 +41,17 @@ void getPressure(void){
   
     if(newValue){
       detectedPressure = sensorValue[0];
-      Serial.print(" ==> ");
-      Serial.print(detectedPressure);
-      Serial.print(',');
-      Serial.print(analogData);
+      if((int8_t) sensorValue[0] > 3){
+        Serial.print(" ==> ");
+        Serial.print(detectedPressure);
+        Serial.print(',');
+        Serial.print(analogData);
+      }
     }
-    Serial.println();
+    if((int8_t) sensorValue[0] > 3) Serial.println();
   }
 }
 
 int8_t convert2Psi(uint16_t v){
-  return map(v, 232, 259, 27, 33);
+  return map(v, 232, 250, 27, 32);
 }
