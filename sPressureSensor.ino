@@ -53,5 +53,5 @@ void getPressure(void){
 }
 
 int8_t convert2Psi(uint16_t v){
-  return map(v, 232, 250, 27, 32);
+  return map(v, 232, 251, 27, 32);
 }

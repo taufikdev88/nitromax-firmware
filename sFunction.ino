@@ -81,7 +81,11 @@ void askReboot(){
   lcdLine(3, "  (Esc) Batal       ");
   while(1){
     customKey = customKeypad.getKey();
-    if(customKey == 'G') restartFunc();
+    if(customKey == 'G') {
+      sendSerial(ASK_TO_RESTART);
+      delay(1000);
+      restartFunc();
+    }
     if(customKey == 'E') break;
   }
 }
