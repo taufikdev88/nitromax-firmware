@@ -2,7 +2,6 @@
 
 #include "BluetoothSerial.h"
 #include "Adafruit_Thermal.h"
-#include "Adafruit_Thermal.h"
 #include <ArduinoJson.h>
 #include <WiFi.h>
 #include "time.h"
@@ -14,7 +13,7 @@ BluetoothSerial SerialBT;
 Adafruit_Thermal printer(&SerialBT);
 
 void setup() {
-  Serial.begin(9600);
+  //Serial.begin(9600);
   Serial2.begin(9600);
 }
 
@@ -32,9 +31,9 @@ void loop() {
         d = (char) Serial2.read();
         if(d != RECOVERY_STOP){
           SerialBT.write(d);
-          Serial.print(d); 
+          //Serial.print(d); 
         } else {
-          Serial.println("Recovery Stop");
+          //Serial.println("Recovery Stop");
           recovery = false;
           Serial2.flush();
         }
@@ -43,17 +42,15 @@ void loop() {
     }
     
     String dataIn = Serial2.readStringUntil('\n');
-    dataIn = dataIn.substring(0, dataIn.indexOf('\r'));
-    
-    Serial.println(dataIn);
+    //Serial.println(dataIn);
 
     DeserializationError error = deserializeJson(doc, dataIn);
     if(!error){ // kalau tidak error, berarti dia menggunakan json
-      Serial.println("Dapat paket json");
+      //Serial.println("Dapat paket json");
       if(!emergency){
         serializeJson(doc, SerialBT);
         SerialBT.println();
-        Serial.println("Print ke android selesai");
+        //Serial.println("Print ke android selesai");
       } else {
         paket.no_transaksi = doc["no_transaksi"].as<String>();
         paket.tgl_transaksi = doc["tgl_transaksi"].as<String>();
@@ -65,38 +62,38 @@ void loop() {
         paket.detail.tekanan = doc["detail"][0]["tekanan"].as<String>();
         paket.detail.tekanan_awal = doc["detail"][0]["tekanan_awal"].as<String>();
         printRPP02N();
-        Serial.println("Print ke printer selesai");
+        //Serial.println("Print ke printer selesai");
       }
       dataIn = "";
     } else if(dataIn.indexOf(KEYWORD) >= 0){
       dataIn = dataIn.substring(KEYWORD_LENGTH);
       
       if(dataIn.indexOf(ASK_WIFI_CONNECT) >= 0){
-        Serial.println("Konek ke wifi");
+        //Serial.println("Konek ke wifi");
         wifiConnect();
       } else
       if(dataIn.indexOf(ASK_SETUP_EMERGENCY) >= 0){
-        Serial.println("Setup emergency");
+        //Serial.println("Setup emergency");
         setupEmergency();
       } else
       if(dataIn.indexOf(ASK_SETUP_NORMAL) >= 0){
-        Serial.println("Setup normal");
+        //Serial.println("Setup normal");
         setupNormal();
       } else 
       if(dataIn.indexOf(ASK_DATE_TIME) >= 0){
-        Serial.println("Update tanggal");
+        //Serial.println("Update tanggal");
         dateTimeUpdate();
       } else
       if(dataIn.indexOf(CHECK_BT_CLIENT) >= 0){
-        Serial.println("Cek Client Bluetooth");
+        //Serial.println("Cek Client Bluetooth");
         checkBtClient();
       } else
       if(dataIn.indexOf(ASK_TO_RESTART) >= 0){
-        Serial.println("Restart esp");
+        //Serial.println("Restart esp");
         ESP.restart();
       } else
       if(dataIn.indexOf(RECOVERY_START) >= 0){
-        Serial.println("Recovery Start");
+        //Serial.println("Recovery Start");
         recovery = true;
       }
     }

@@ -11,18 +11,18 @@
 void wifiConnect(){
   if(!isDateUpdated){
     WiFi.begin(HOTSPOT_SSID, HOTSPOT_PASS);
-    Serial.println("connecting to hotspot");
+    //Serial.println("connecting to hotspot");
     uint8_t cnt = 0;
     while(WiFi.status() != WL_CONNECTED){
       delay(500);
-      Serial.print(".");
+      //Serial.print(".");
       if(++cnt >= 60){
         sendSerial(INFO_WIFI_ERROR);
-        Serial.println();
+        //Serial.println();
         ESP.restart();
       }
     }
   }
   sendSerial(INFO_SUCCESS);
-  Serial.println();
+  //Serial.println();
 }

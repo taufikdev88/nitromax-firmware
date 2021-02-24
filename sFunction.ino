@@ -191,13 +191,15 @@ void cekHarga(bool isTambalFinish = true, bool gagal = false){
     switch(mode[1]){
       case 0: globalString = doc["motor"]["kuras"] | "5000"; break;
       case 1: globalString = doc["motor"]["tambah"] | "3000"; break;
-      case 2: globalString = (isTambalFinish ? doc["motor"]["tambal"] : doc["motor"]["tambah"]) | "15000"; break;
+      case 2:
+      case 3: globalString = (isTambalFinish ? doc["motor"]["tambal"] : doc["motor"]["tambah"]) | "15000"; break;
     }
   } else if(mode[0] == 1){
     switch(mode[1]){
       case 0: globalString = doc["mobil"]["kuras"] | "10000"; break;
       case 1: globalString = doc["mobil"]["tambah"] | "4000"; break;
-      case 2: globalString = (isTambalFinish ? doc["mobil"]["tambal"] : doc["mobil"]["tambah"]) | "20000"; break;
+      case 2:
+      case 3: globalString = (isTambalFinish ? doc["mobil"]["tambal"] : doc["mobil"]["tambah"]) | "20000"; break;
     }
   }
   if(gagal){

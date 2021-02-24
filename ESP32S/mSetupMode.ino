@@ -13,9 +13,9 @@ void setupEmergency(){
   //connected = SerialBT.connect(address);
   
   if(!connected){
-    Serial.println("printer not connected");
+    //Serial.println("printer not connected");
     while(!SerialBT.connected(10000)){
-      Serial.println(".");
+      //Serial.println(".");
     }
   }
 
