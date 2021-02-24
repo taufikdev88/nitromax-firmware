@@ -156,6 +156,7 @@ skipwritingtransaksi:
         if(mode[1] != 0){
           break;
         } else if(mode[1] == 0 && detectedPressure <= UPLIMIT_AUTO_PRESSURE){
+          detectedPressure = 0;
           break;
         }
       }

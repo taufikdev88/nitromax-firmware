@@ -7,6 +7,7 @@ void vStep7(){
   lcd.clear();
   
   if(mode[1] == 2){
+    // jika modenya adalah cek bocor, langsung skip step7
     goto end2;
   } else if(mode[1] == 3){
     ban = 0;
