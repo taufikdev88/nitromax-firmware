@@ -30,7 +30,7 @@ void vStep1(){
         mode[0] = !(doc["mode_transaksi"].as<String>().toInt() % 2);
         mode[1] = (doc["mode_transaksi"].as<String>().toInt() - 1) / 2;
 
-        if(mode[1] < 2) ban = 1;
+        if(mode[1] >= 2) ban = 1;
         else ban = doc["jumlah_ban"].as<String>().toInt();
         
         referencePressure = String(doc["tekanan"] | "33").toInt();

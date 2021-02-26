@@ -15,8 +15,8 @@ void vStep7(){
 
         lcdLine(1, "      NITROMAX      ");
         lcdLine(2, " Apakah Ada Bocor ? ");
-        lcdLine(3, "   (Ent) Ya         ");
-        lcdLine(4, "   (Esc) Tidak      ");
+        lcdLine(3, "   (1) Ya           ");
+        lcdLine(4, "   (0) Tidak        ");
       }
       if((unsigned long) millis()-tReload > TRELOAD){
         tReload = millis();
@@ -42,10 +42,10 @@ void vStep7(){
       }
       
       customKey = customKeypad.getKey();
-      if(customKey == 'G'){
+      if(customKey == '1'){
         ban = 1;
         break;
-      } else if(customKey == 'E'){
+      } else if(customKey == '0'){
         ban = 0;
         break;
       } else if(customKey == '*'){

@@ -106,7 +106,7 @@ void recovery(){
       
       file = SD.open(FILE_BACKUP); // <------------------- file open
       if(!file){
-        lcdLine(1,"File Recovered!");
+        lcdLine(1,"File Recovered!     ");
         delay(1000);
         break;
       }
@@ -120,7 +120,7 @@ void recovery(){
       file.close(); // <------------------- file close
       Serial1.print(RECOVERY_STOP);
             
-      lcdLine(1,"Recovered!");
+      lcdLine(1,"Recovered!          ");
       delay(1000);
       
       SD.remove(FILE_BACKUP);

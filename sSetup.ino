@@ -170,7 +170,9 @@ skipwritingkalibrasi:
     }
     if((unsigned long) millis()-tRefresh >= TREFRESH){
       tRefresh = millis();
-      lcdLine(3, "   Ref:    Cur:      ");
+      lcdLine(1, "    Mendeteksi      ");
+      lcdLine(2, " Tekanan Awal Mesin ");
+      lcdLine(3, "   Ref:    Cur:     ");
       lcd.setCursor(7,2);
       lcd.print(currentPressure);
       lcd.setCursor(15,2);
