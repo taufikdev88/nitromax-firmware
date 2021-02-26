@@ -16,7 +16,7 @@ void wifiConnect(){
     while(WiFi.status() != WL_CONNECTED){
       delay(500);
       //Serial.print(".");
-      if(++cnt >= 60){
+      if(++cnt >= 28){
         sendSerial(INFO_WIFI_ERROR);
         //Serial.println();
         ESP.restart();

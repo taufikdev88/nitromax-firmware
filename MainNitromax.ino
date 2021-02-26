@@ -1,6 +1,8 @@
 #include "ESP32S/COMMUNICATION.h"
 #include "DEFINES.h"
 
+bool readSerial(uint32_t waitTime = TRELOAD);
+
 void setup(){
   setupIO(); // sudah dicek
   setupPressure(); // sudah dicek

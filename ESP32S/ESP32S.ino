@@ -95,6 +95,8 @@ void loop() {
       if(dataIn.indexOf(RECOVERY_START) >= 0){
         //Serial.println("Recovery Start");
         recovery = true;
+      } else {
+        sendSerial(INFO_ERROR);
       }
     }
   }

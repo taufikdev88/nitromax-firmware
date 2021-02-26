@@ -16,6 +16,7 @@
 #define INFO_GET_TIME_ERROR "I4"
 
 #define INFO_SUCCESS "I5"
+#define INFO_ERROR "I6"
 
 #define RECOVERY_START "R0"
 #define RECOVERY_STOP 'X'

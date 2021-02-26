@@ -14,7 +14,7 @@ void sendSerial(char* packet){
   Serial1.println(packet);
 }
 
-bool readSerial(){
+bool readSerial(uint32_t waitTime = TRELOAD){
   tRefresh = millis();
   while(waitForAnswer){
     if(Serial1.available() > 0){
@@ -29,7 +29,7 @@ bool readSerial(){
       }
       waitForAnswer = 0;
     }
-    if((unsigned long) millis()-tRefresh >= TRELOAD){
+    if((unsigned long) millis()-tRefresh >= waitTime){
       Serial.println("Ada masalah dengan Serial1");
       lcdReload();
       lcdLine(1, "Komunikasi Timeout! ");
@@ -101,6 +101,8 @@ void recovery(){
     customKey = customKeypad.getKey();
     if(customKey == 'G'){
       lcd.clear();
+      lcdLine(1, "Proses Recovery     ");
+      lcdLine(4, "Jangan Tekan Apapun!");
       
       file = SD.open(FILE_BACKUP); // <------------------- file open
       if(!file){

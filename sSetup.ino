@@ -233,7 +233,7 @@ void setupWiFi(){
   
 trySetupWifi:
   sendSerial(ASK_WIFI_CONNECT);
-  if(readSerial()){
+  if(readSerial(60000)){
     if(globalString.indexOf(INFO_WIFI_ERROR) >= 0){
       lcd.clear();
       lcdLine(1, "Gagal Terhubung.....");
