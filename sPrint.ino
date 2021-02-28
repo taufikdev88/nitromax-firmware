@@ -4,8 +4,6 @@
  * Kirip paket json ke ESP
  */
 void printJSON(bool isBackup = false, bool isFinish = true){
-  tReload = millis();
-  
   StaticJsonDocument<JSON_PACKET_LENGTH> doc;
   doc["mode"] = "output";
   doc["status"] = "ok";

@@ -194,7 +194,6 @@ skipcekharga:
   lcdLine(1, " PROSES CETAK NOTA  ");
   lcdLine(2, "   JANGAN MATIKAN   ");
   lcdLine(3, "        MESIN       ");
-  delay(500);
   
   sendSerial(CHECK_BT_CLIENT);
   if(readSerial()){
@@ -206,6 +205,10 @@ skipcekharga:
       printJSON(true); // backup true, finish true
       delay(2000);
     } else {
+      lcd.clear();
+      lcdLine(1, " PROSES CETAK NOTA  ");
+      lcdLine(2, "   JANGAN MATIKAN   ");
+      lcdLine(3, "        MESIN       ");
       // printJSON dijalankan
       printJSON(); // backup false, finish true
       
@@ -213,15 +216,15 @@ skipcekharga:
       if(SD.exists(FILE_CALIB)){
         SD.remove(FILE_CALIB);
       }
-      // jika checkout tambal, hapus file penyimpan jumlah tambal
-      if(SD.exists(FILE_TAMBAL)){
-        SD.remove(FILE_TAMBAL);
-        paket.jumlah_cekbocor = "0";
-      }
     }
   }  
 
 end2:
+  // jika checkout tambal, hapus file penyimpan jumlah tambal
+  if(SD.exists(FILE_TAMBAL)){
+    SD.remove(FILE_TAMBAL);
+    paket.jumlah_cekbocor = "0";
+  }
   step = step1;
   tReload = tRefresh = 0;
 }

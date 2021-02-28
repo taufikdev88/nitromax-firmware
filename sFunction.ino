@@ -21,13 +21,13 @@ bool readSerial(uint32_t waitTime = TRELOAD){
       String dataIn = Serial1.readStringUntil('\n');
       Serial.println(dataIn);
 
+      waitForAnswer = 0;
       if(dataIn.indexOf(KEYWORD) >= 0){
         globalString = dataIn.substring(KEYWORD_LENGTH);
         return true;
       } else {
         return false;
       }
-      waitForAnswer = 0;
     }
     if((unsigned long) millis()-tRefresh >= waitTime){
       Serial.println("Ada masalah dengan Serial1");
