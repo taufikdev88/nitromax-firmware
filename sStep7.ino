@@ -191,7 +191,10 @@ skipcekharga:
   if(SD.exists(FILE_TEMP)) SD.remove(FILE_TEMP);
   delay(1);
   
-  lcdLine(1, "PROSES CETAK NOTA");
+  lcdLine(1, " PROSES CETAK NOTA  ");
+  lcdLine(2, "   JANGAN MATIKAN   ");
+  lcdLine(3, "        MESIN       ");
+  delay(500);
   
   sendSerial(CHECK_BT_CLIENT);
   if(readSerial()){

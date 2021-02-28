@@ -47,22 +47,24 @@ void loop() {
     DeserializationError error = deserializeJson(doc, dataIn);
     if(!error){ // kalau tidak error, berarti dia menggunakan json
       //Serial.println("Dapat paket json");
-      if(!emergency){
-        serializeJson(doc, SerialBT);
-        SerialBT.println();
-        //Serial.println("Print ke android selesai");
-      } else {
-        paket.no_transaksi = doc["no_transaksi"].as<String>();
-        paket.tgl_transaksi = doc["tgl_transaksi"].as<String>();
-        paket.jenis_kendaraan = doc["jenis_kendaraan"].as<String>();
-        paket.harga = doc["harga"].as<String>();
-        paket.detail.mode_transaksi = doc["detail"][0]["mode_transaksi"].as<String>();
-        paket.detail.jumlah_ban = doc["detail"][0]["jumlah_ban"].as<String>();
-        paket.detail.jumlah_error = doc["detail"][0]["jumlah_error"].as<String>();
-        paket.detail.tekanan = doc["detail"][0]["tekanan"].as<String>();
-        paket.detail.tekanan_awal = doc["detail"][0]["tekanan_awal"].as<String>();
-        printRPP02N();
-        //Serial.println("Print ke printer selesai");
+      if(doc["no_transaksi"]){
+        if(!emergency){
+          serializeJson(doc, SerialBT);
+          SerialBT.println();
+          //Serial.println("Print ke android selesai");
+        } else {
+          paket.no_transaksi = doc["no_transaksi"].as<String>();
+          paket.tgl_transaksi = doc["tgl_transaksi"].as<String>();
+          paket.jenis_kendaraan = doc["jenis_kendaraan"].as<String>();
+          paket.harga = doc["harga"].as<String>();
+          paket.detail.mode_transaksi = doc["detail"][0]["mode_transaksi"].as<String>();
+          paket.detail.jumlah_ban = doc["detail"][0]["jumlah_ban"].as<String>();
+          paket.detail.jumlah_error = doc["detail"][0]["jumlah_error"].as<String>();
+          paket.detail.tekanan = doc["detail"][0]["tekanan"].as<String>();
+          paket.detail.tekanan_awal = doc["detail"][0]["tekanan_awal"].as<String>();
+          printRPP02N();
+          //Serial.println("Print ke printer selesai");
+        }
       }
       dataIn = "";
     } else if(dataIn.indexOf(KEYWORD) >= 0){
