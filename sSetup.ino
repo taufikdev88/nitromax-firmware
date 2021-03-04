@@ -69,6 +69,7 @@ void printDirectory(File dir, int numTabs) {
  * Perintah untuk operator untuk mencocokkan tekanan awal dari mesin
  */
 void setupPressure(){
+  /*
   file = SD.open(FILE_CALIB);
   if(!file){
     paket.jumlah_kalibrasi = "1";
@@ -100,6 +101,7 @@ skipreadingkalibrasi:
 skipwritingkalibrasi:
   file.close();
   delay(1);
+  */
   
   currentPressure = 33;
   lcdLine(1, "   Mohon Samakan    ");
@@ -107,10 +109,10 @@ skipwritingkalibrasi:
   lcdLine(3, "          Psi       ");
   lcd.setCursor(7,2);
   lcd.print(currentPressure);
-  lcd.setCursor(0,0);
-  lcd.print(paket.jumlah_kalibrasi);
+//  lcd.setCursor(0,0);
+//  lcd.print(paket.jumlah_kalibrasi);
   lcdLine(4, "  Ent Untuk Lanjut  ");
-  
+
   while(1){
     if((unsigned long) millis()-tReload >= TRELOAD){
       tReload = millis();
@@ -121,18 +123,18 @@ skipwritingkalibrasi:
       lcdLine(3, "          Psi       ");
       lcd.setCursor(7,2);
       lcd.print(currentPressure);
-      lcd.setCursor(0,0);
-      lcd.print(paket.jumlah_kalibrasi);
+//      lcd.setCursor(0,0);
+//      lcd.print(paket.jumlah_kalibrasi);
     }
   
     digitalWrite(OUT_PAUSE, (isBtnPause() ? RELAY_ON : RELAY_OFF));
     digitalWrite(OUT_UP, (isBtnUp() ? RELAY_ON : RELAY_OFF));
     digitalWrite(OUT_DOWN, (isBtnDown() ? RELAY_ON : RELAY_OFF));
 
-    getPressure();
-    if(detectedPressure > (NORMAL_PRESSURE + OFFSET_PRESSURE)){
-      break;
-    }
+//    getPressure();
+//    if(detectedPressure > (NORMAL_PRESSURE + OFFSET_PRESSURE)){
+//      break;
+//    }
     
     customKey = customKeypad.getKey();
     if(customKey == 'G'){
@@ -144,11 +146,11 @@ skipwritingkalibrasi:
       lcdLine(3, "          Psi       ");
       lcd.setCursor(7,2);
       lcd.print(currentPressure);
-      lcd.setCursor(0,0);
-      lcd.print(paket.jumlah_kalibrasi);
+//      lcd.setCursor(0,0);
+//      lcd.print(paket.jumlah_kalibrasi);
     }
   }
-
+/*
   digitalWrite(OUT_MOTOR, RELAY_ON);
   delay(TPRESSING);
   digitalWrite(OUT_MOTOR, RELAY_OFF);
@@ -205,6 +207,7 @@ skipwritingkalibrasi:
     lcdLine(4, "  MENYALAKAN ULANG  ");
     restartFunc();
   }
+  */
 }
 
 /*

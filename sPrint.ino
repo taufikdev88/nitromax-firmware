@@ -17,7 +17,7 @@ void printJSON(bool isBackup = false, bool isFinish = true){
   doc["detail"][0]["tekanan"] = paket.detail.tekanan;
   doc["detail"][0]["tekanan_awal"] = paket.detail.tekanan_awal;
   doc["harga"] = paket.harga;
-  doc["jumlah_kalibrasi"] = paket.jumlah_kalibrasi;
+//  doc["jumlah_kalibrasi"] = paket.jumlah_kalibrasi;
   doc["jumlah_cekbocor"] = paket.jumlah_cekbocor;
 
   if(isBackup){

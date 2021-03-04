@@ -36,7 +36,7 @@ struct Paket {
   String tgl_transaksi;
   String jenis_kendaraan;
   String harga;
-  String jumlah_kalibrasi;
+//  String jumlah_kalibrasi;
   String jumlah_cekbocor;
   struct Detail detail;
 };
