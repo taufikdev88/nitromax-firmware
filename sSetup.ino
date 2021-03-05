@@ -233,6 +233,7 @@ void setupWiFi(){
   }
 
   lcd.clear();
+  Serial.println("Mencoba menghubungkan wifi");
   lcdLine(1, "MENCOBA UNTUK       ");
   lcdLine(2, "MENGHUBUNGKAN WIFI  ");
   

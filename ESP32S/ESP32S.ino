@@ -13,8 +13,8 @@ BluetoothSerial SerialBT;
 Adafruit_Thermal printer(&SerialBT);
 
 void setup() {
-  //Serial.begin(9600);
-  Serial2.begin(9600);
+  Serial.begin(9600);
+  Serial2.begin(115200);
 }
 
 void loop() {
@@ -30,8 +30,8 @@ void loop() {
       while(Serial2.available()){
         d = (char) Serial2.read();
         if(d != RECOVERY_STOP){
-          SerialBT.write(d);
-          //Serial.print(d); 
+//          SerialBT.write(d);
+          Serial.print(d); 
         } else {
           //Serial.println("Recovery Stop");
           recovery = false;
