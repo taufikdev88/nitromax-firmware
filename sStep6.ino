@@ -172,6 +172,7 @@ skipwritingtransaksi:
     digitalWrite((mode[1] == 0 ? OUT_AUTO : OUT_INFLATION), RELAY_OFF);
     
     int8_t oldDetectedPressure = 0;
+    bool pausePressed = false;
     while(1){
       if(Serial1.available()){
         globalString = Serial1.readStringUntil('\n');
@@ -191,6 +192,12 @@ skipwritingtransaksi:
       
       getPressure();
       if(detectedPressure != oldDetectedPressure){
+        if(pausePressed){
+          oldDetectedPressure = 0;
+          detectedPressure = 0;
+          pausePressed = false;
+          continue;
+        }
         // jika detectedPressure adalah pressure yang normal 1-2 psi dan oldpressure merupakan diantara reference  pressure maka dicabut
         if(detectedPressure <= (NORMAL_PRESSURE + OFFSET_PRESSURE) && oldDetectedPressure >= (referencePressure - OFFSET_PRESSURE) && oldDetectedPressure <= (referencePressure + OFFSET_PRESSURE)){
           Serial.println("Terdeteksi dicabut berhasil");
@@ -247,7 +254,7 @@ skipwritingtransaksi:
 //      }
 
       if(isBtnPause()){
-        oldDetectedPressure = 0;
+        pausePressed = true;
         digitalWrite(OUT_PAUSE, RELAY_ON);
       } else {
         digitalWrite(OUT_PAUSE, RELAY_OFF);

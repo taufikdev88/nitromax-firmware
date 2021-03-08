@@ -123,7 +123,7 @@ void recovery(){
       lcdLine(1,"Recovered!          ");
       delay(1000);
       
-//      SD.remove(FILE_BACKUP);
+      SD.remove(FILE_BACKUP);
       break;
     } else if(customKey == 'E'){
       break;
