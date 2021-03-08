@@ -246,7 +246,12 @@ skipwritingtransaksi:
 //        pressed = false;
 //      }
 
-      digitalWrite(OUT_PAUSE, (isBtnPause() ? RELAY_ON : RELAY_OFF));
+      if(isBtnPause()){
+        oldDetectedPressure = 0;
+        digitalWrite(OUT_PAUSE, RELAY_ON);
+      } else {
+        digitalWrite(OUT_PAUSE, RELAY_OFF);
+      }
       if(mode[1] == 0) digitalWrite(OUT_AUTO, (isBtnAuto() ? RELAY_ON : RELAY_OFF));
       if(mode[1] != 0) digitalWrite(OUT_INFLATION, (isBtnInf() ? RELAY_ON : RELAY_OFF));
       
