@@ -192,12 +192,12 @@ skipwritingtransaksi:
       
       getPressure();
       if(detectedPressure != oldDetectedPressure){
-        if(pausePressed){
-          oldDetectedPressure = 0;
-          detectedPressure = 0;
-          pausePressed = false;
-          continue;
-        }
+//        if(pausePressed){
+//          oldDetectedPressure = 0;
+//          detectedPressure = 0;
+//          pausePressed = false;
+//          continue;
+//        }
         // jika detectedPressure adalah pressure yang normal 1-2 psi dan oldpressure merupakan diantara reference  pressure maka dicabut
         if(detectedPressure <= (NORMAL_PRESSURE + OFFSET_PRESSURE) && oldDetectedPressure >= (referencePressure - OFFSET_PRESSURE) && oldDetectedPressure <= (referencePressure + OFFSET_PRESSURE)){
           Serial.println("Terdeteksi dicabut berhasil");

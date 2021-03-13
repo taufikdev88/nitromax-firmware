@@ -12,34 +12,37 @@ bool isDateUpdated = false;
 BluetoothSerial SerialBT;
 Adafruit_Thermal printer(&SerialBT);
 
+unsigned long timingPrinter = 0;
+
 void setup() {
-  Serial.begin(9600);
+//  Serial.begin(9600);
   Serial2.begin(115200);
 }
 
 void loop() {
+  if(recovery){
+    char d = ' ';
+    while(Serial2.available()){
+      d = (char) Serial2.read();
+      if(d != RECOVERY_STOP){
+        SerialBT.write(d);
+//          Serial.print(d); 
+      } else {
+        //Serial.println("Recovery Stop");
+        recovery = false;
+        Serial2.flush();
+      }
+    }
+    return;
+  }
+    
   StaticJsonDocument<JSON_PACKET_LENGTH> doc;
 
   //******************************** Mikro to ESP -> use keyworad
   //******************************** Mikro to Android -> use JSON in normal mode
   //******************************** Mikro to Printer -> use JSON in emergency mode
   //******************************** Khusus recovery, karena banyak paket json, maka ditandai recovery start
-  if(Serial2.available() > 0){    
-    if(recovery){
-      char d = ' ';
-      while(Serial2.available()){
-        d = (char) Serial2.read();
-        if(d != RECOVERY_STOP){
-//          SerialBT.write(d);
-          Serial.print(d); 
-        } else {
-          //Serial.println("Recovery Stop");
-          recovery = false;
-          Serial2.flush();
-        }
-      }
-      return;
-    }
+  if(Serial2.available() > KEYWORD_LENGTH){    
     
     String dataIn = Serial2.readStringUntil('\n');
     //Serial.println(dataIn);
@@ -113,6 +116,11 @@ void loop() {
         // jika tidak error, langsung saja terus kan ke arduino mega
         Serial2.println(dataBT);
       }
+    }
+  } else {
+    if((unsigned long) millis()-timingPrinter >= 300000){
+      timingPrinter = millis();
+      printer.justify('C');
     }
   }
 }
