@@ -1,4 +1,4 @@
-#include "ESP32S/COMMUNICATION.h"
+#include "program/COMMUNICATION.h"
 #include "DEFINES.h"
 
 bool readSerial(uint32_t waitTime = TRELOAD);

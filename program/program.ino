@@ -15,8 +15,8 @@ Adafruit_Thermal printer(&SerialBT);
 unsigned long timingPrinter = 0;
 
 void setup() {
-//  Serial.begin(9600);
-  Serial2.begin(115200);
+//  Serial.begin(115200);
+  Serial2.begin(9600);
 }
 
 void loop() {
@@ -66,6 +66,7 @@ void loop() {
           paket.detail.tekanan = doc["detail"][0]["tekanan"].as<String>();
           paket.detail.tekanan_awal = doc["detail"][0]["tekanan_awal"].as<String>();
           printRPP02N();
+          timingPrinter = millis();
           //Serial.println("Print ke printer selesai");
         }
       }

@@ -2,6 +2,8 @@
  * Ini adalah file yang berhubungan dengan sampling dan penghitungan sensor tekanan angin
  * baik konversi ke psi dan sebaliknya
  */
+
+int8_t newPressure = 0;
 int8_t detectedPressure = 0;
 uint8_t sensorValue[10] = { 0 };
 unsigned long tSampling = 0;
@@ -32,7 +34,11 @@ void getPressure(void){
     bool newValue = true;
     for(uint8_t idx=1; idx<10; idx++){
       if((int8_t) sensorValue[0] > 3) Serial.print((String) ',' + sensorValue[idx]);
-      
+
+
+      if(i == 3){
+        newPressure = sensorValue[0];
+      }
       if(sensorValue[0] != sensorValue[idx]){
         newValue = false;
         break;

@@ -111,3 +111,4 @@ String stringTransaksi[4] = { "  Isi Baru Nitrogen ","  Isi Tambah Nitro..","  C
 
 unsigned long tRefresh = 0;
 unsigned long tReload = 0;
+unsigned long tStart = 0;

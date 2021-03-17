@@ -78,6 +78,9 @@ skipwritingtransaksi:
     delay(300);
 
     detectedPressure = 1; // reset nilai
+    newPressure = 1;
+    bool normalStart = true;
+    
     Serial.println("Mendeteksi tekanan awal");
     while(true){
       if(Serial1.available()){
@@ -116,6 +119,16 @@ skipwritingtransaksi:
       }
       
       getPressure();
+
+      if(newPressure <= (NORMAL_PRESSURE + OFFSET_PRESSURE)){
+        tStart = millis();
+      }
+      if((unsigned long) millis()-tStart >= 10000){
+        if(mode[1] != 0){
+          normalStart = false;
+          break;
+        }
+      }
       if(detectedPressure > (NORMAL_PRESSURE + OFFSET_PRESSURE)){
         if(mode[1] != 0){
           break;
@@ -166,10 +179,12 @@ skipwritingtransaksi:
         
     digitalWrite(OUT_SELENOID, RELAY_ON);
     delay(500);
-    
-    digitalWrite((mode[1] == 0 ? OUT_AUTO : OUT_INFLATION), RELAY_ON);
-    delay(TPRESSING);
-    digitalWrite((mode[1] == 0 ? OUT_AUTO : OUT_INFLATION), RELAY_OFF);
+
+    if(normalStart){
+      digitalWrite((mode[1] == 0 ? OUT_AUTO : OUT_INFLATION), RELAY_ON);
+      delay(TPRESSING);
+      digitalWrite((mode[1] == 0 ? OUT_AUTO : OUT_INFLATION), RELAY_OFF); 
+    }
     
     int8_t oldDetectedPressure = 0;
     bool pausePressed = false;
