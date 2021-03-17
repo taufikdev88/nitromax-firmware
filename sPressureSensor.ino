@@ -36,7 +36,7 @@ void getPressure(void){
       if((int8_t) sensorValue[0] > 3) Serial.print((String) ',' + sensorValue[idx]);
 
 
-      if(i == 3){
+      if(idx == 3){
         newPressure = sensorValue[0];
       }
       if(sensorValue[0] != sensorValue[idx]){

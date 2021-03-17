@@ -218,7 +218,7 @@ skipwritingtransaksi:
           Serial.println("Terdeteksi dicabut berhasil");
           
           paket.detail.tekanan += String(referencePressure) + ",";
-          paket.detail.tekanan_awal += String(startPressure) + ",";
+          paket.detail.tekanan_awal += String(startPressure) + (normalStart == false ? "(tts)" : "") + ",";
           if(!emergency) Serial1.println(F("{\"mode\":\"cabut\",\"status\":\"ok\"}"));
           break;
         } else 
